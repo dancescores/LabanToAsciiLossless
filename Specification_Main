@@ -1,0 +1,70 @@
+======================================================================
+LABAN-ASCII ENCODING SPECIFICATION (v1.0)
+A One-to-One Symbolic Mapping for Movement Notation
+======================================================================
+
+1. DATA ARCHITECTURE
+--------------------
+Each line represents a discrete slice of time (Frame/Beat/Millisecond).
+The system uses a 6-Field "Stave" with fixed-width blocks. Supports additional fields.
+
+Field Order:
+[TIME] | [L-ARM] | [L-LEG] | [TRUNK] | [R-LEG] | [R-ARM] | [HEAD]
+
+Block Format (5 Characters): [M][D][L][f][r]
+- M: Mode
+- D: Direction
+- L: Level
+- f: Flexion/Flow
+- r: Rotation
+
+2. THE TRANSLATION KEY
+----------------------
+
+A. MODE [M] (Position 1)
+   s = Support (Weight-bearing / Stepping)
+   g = Gesture (In the air / Non-weight)
+   . = No change (Retention of state)
+   X = Cancellation (Return to neutral/gravity)
+
+B. DIRECTION [D] (Position 2)
+   Uses the Numpad Compass:
+   7 8 9   (Fwd-L, Fwd, Fwd-R)
+   4 5 6   (Left, Place, Right)
+   1 2 3   (Back-L, Back, Back-R)
+   0       (Airborne/No Direction - e.g. Jump)
+
+C. LEVEL [L] (Position 3)
+   ^ = High
+   - = Middle
+   _ = Low
+
+D. FLEXION/EXTENSION [f] (Position 4)
+   v = Flexed (Contraction/Folded joint)
+   ! = Extended (Reaching/Straightened)
+   . = Natural/Unspecified
+
+E. ROTATION [r] (Position 5)
+   > = Outward (Clockwise)
+   < = Inward (Counter-clockwise)
+   . = Natural/Unspecified
+
+3. SPECIAL SYMBOLS
+------------------
+..... = Hold (The "Continuity" line in Laban)
+===== = Bar Line (End of a musical measure)
+//    = Comment (Ignored by parser)
+
+4. SAMPLE TRANSCRIPTION
+-----------------------
+Scenario: A simple forward walk with arms rising to the side.
+
+TIME  | L-ARM | L-LEG | TRUNK | R-LEG | R-ARM | HEAD 
+======================================================
+01.0  | X.... | s5-.. | 5-... | s5-.. | X.... | 5-...  // Start: Standing neutral
+01.5  | g4-.. | s8-.. | ..... | ..... | g6-.. | .....  // Step L-Fwd, Arms rise
+02.0  | ..... | ..... | ..... | s8-.. | ..... | .....  // Step R-Fwd, Arms hold
+02.5  | g5^v. | s5_v. | 2-... | s5_v. | g5^v. | .....  // Deep Plie, Arms fold high
+
+======================================================================
+END OF SPECIFICATION
